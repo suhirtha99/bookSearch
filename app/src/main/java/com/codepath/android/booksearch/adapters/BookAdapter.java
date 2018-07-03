@@ -1,6 +1,7 @@
 package com.codepath.android.booksearch.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,11 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.codepath.android.booksearch.GlideApp;
-import com.codepath.android.booksearch.MyAppGlideModule;
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.activities.BookDetailActivity;
 import com.codepath.android.booksearch.models.Book;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +25,43 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     private Context mContext;
 
     // View lookup cache
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public ImageView ivCover;
         public TextView tvTitle;
         public TextView tvAuthor;
+
+        public void onClick(View view) {
+            // gets item position
+            int position = getAdapterPosition();
+            // make sure the position is valid, i.e. actually exists in the view
+            if (position != RecyclerView.NO_POSITION) {
+                // get the movie at the position, this won't work if the class is static
+                Book book = mBooks.get(position);
+                // create intent for the new activity
+                //TODO change back to movies detail activity
+                Intent intent = new Intent(mContext, BookDetailActivity.class);
+                // serialize the movie using parceler, use its short name as a key
+                intent.putExtra(Book.class.getSimpleName(), Parcels.wrap(book));
+                // serialize the image
+                //intent.putExtra(imageURL_background, config.getImageUrl(config.getPosterSize(), movie.getPosterPath()));
+                // show the activity
+                mContext.startActivity(intent);
+            }
+        }
 
         public ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            ivCover = (ImageView)itemView.findViewById(R.id.ivBookCover);
-            tvTitle = (TextView)itemView.findViewById(R.id.tvTitle);
-            tvAuthor = (TextView)itemView.findViewById(R.id.tvAuthor);
+            ivCover = (ImageView) itemView.findViewById(R.id.ivBookCover);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+            tvAuthor = (TextView) itemView.findViewById(R.id.tvAuthor);
+
+            itemView.setOnClickListener(this);
         }
     }
+
 
     public BookAdapter(Context context, ArrayList<Book> aBooks) {
         mBooks = aBooks;

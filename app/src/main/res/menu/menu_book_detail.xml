@@ -4,4 +4,18 @@
     tools:context="com.codepath.android.booksearch.activities.BookDetailActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/miCompose"
+        android:icon="@drawable/ic_fiber_manual_record_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="Compose">
+    </item>
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/ic_fiber_manual_record_black_24dp"
+        app:showAsAction="ifRoom|withText"
+        android:title="Profile">
+    </item>
 </menu>
